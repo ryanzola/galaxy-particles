@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
 
 import Experience from './Experience'
 
@@ -17,7 +18,7 @@ export default class Renderer
         this.scene = this.experience.scene
         this.camera = this.experience.camera
         
-        this.usePostprocess = false
+        this.usePostprocess = true
 
         this.setInstance()
         this.setPostProcess()
@@ -86,11 +87,22 @@ export default class Renderer
                 encoding: THREE.sRGBEncoding
             }
         )
+
+        // bloom pass
+        this.postProcess.unrealBloomPass = new UnrealBloomPass(
+            new THREE.Vector2(this.sizes.width, this.sizes.height), 
+            1.25, 
+            0.52, 
+            0.2
+        )
+        this.postProcess.unrealBloomPass.enabled = true
+
         this.postProcess.composer = new EffectComposer(this.instance, this.renderTarget)
         this.postProcess.composer.setSize(this.config.width, this.config.height)
         this.postProcess.composer.setPixelRatio(this.config.pixelRatio)
 
         this.postProcess.composer.addPass(this.postProcess.renderPass)
+        this.postProcess.composer.addPass(this.postProcess.unrealBloomPass)
     }
 
     resize()

@@ -1,8 +1,9 @@
-# Three.js - Template - Complex
+# Galaxy Particles
 
-🚧 This template is under construction
+## A cool particle galaxy with mouse pointer gravity
 
-## Setup
+### Setup
+
 Download [Node.js](https://nodejs.org/en/download/).
 Run this followed commands:
 
